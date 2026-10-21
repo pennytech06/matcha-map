@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matcha Map 🍵</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", sans-serif;
+      background-color: #f8f5ec;
+      color: #405440;
+    }
+
+    header {
+      padding: 24px;
+      text-align: center;
+      background-color: #e4edda;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    header p {
+      color: #71836a;
+    }
+
+    main {
+      width: 100%;
+      max-width: 740px;
+      box-sizing: border-box;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      padding: 28px;
+      border-radius: 24px;
+      background-color: #f9e3eb;
+      text-align: center;
+    }
+
+    .welcome h2,
+    .wishlist-section h2 {
+      color: #8e5369;
+    }
+
+    .search,
+    #diary-form input,
+    #diary-form select,
+    #diary-form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px;
+      margin: 8px 0 16px;
+      border: 1px solid #d9dfce;
+      border-radius: 14px;
+      font: inherit;
+      background-color: white;
+      color: #405440;
+    }
+
+    .search {
+      margin: 18px 0;
+    }
+
+    #diary-form label {
+      display: block;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #diary-form textarea {
+      resize: vertical;
+    }
+
+    .cafe-card {
+      margin-top: 16px;
+      padding: 20px;
+      border-radius: 20px;
+      background-color: white;
+      box-shadow: 0 4px 15px #40544010;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background-color: #e4edda;
+      font-size: 12px;
+    }
+
+    .save-button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #e9b8ca;
+      color: #543847;
+      cursor: pointer;
+      margin-top: 8px;
+      font: inherit;
+    }
+
+    .save-button:hover {
+      background-color: #df9fb7;
+    }
+
+    .section-note {
+      color: #71836a;
+      margin-top: -8px;
+    }
+
+    .verification {
+      color: #8b8178;
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    .cafe-card a {
+      color: #536b48;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .cafe-card a:hover {
+      text-decoration: underline;
+    }
+
+    .wishlist-section {
+      margin-top: 36px;
+      padding: 22px;
+      border-radius: 20px;
+      background-color: #f9e3eb;
+    }
+
+    .empty-message {
+      color: #765d67;
+      line-height: 1.6;
+    }
+
+    .wishlist-item,
+    .diary-entry {
+      padding: 18px;
+      margin-top: 14px;
+      border: 1px solid #f0d6df;
+      border-radius: 18px;
+      background-color: #fffdfd;
+      box-shadow: 0 4px 12px #8e536910;
+      overflow-wrap: anywhere;
+    }
+
+    .wishlist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .wishlist-item strong {
+      color: #405440;
+      font-size: 17px;
+    }
+
+    .diary-entry h3 {
+      margin: 0 0 14px;
+      color: #8e5369;
+      font-size: 20px;
+    }
+
+    .diary-entry p {
+      margin: 10px 0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .diary-entry .section-note {
+      font-size: 14px;
+    }
+
+    .delete-button {
+      border: 1px solid #e9b8ca;
+      background-color: #fff5f8;
+      color: #8e5369;
+      padding: 9px 14px;
+      border-radius: 18px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .delete-button:hover {
+      background-color: #f9e3eb;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid #b9cba9;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 27px;
+      }
+
+      main {
+        padding: 0 14px;
+      }
+
+      .welcome,
+      .wishlist-section {
+        padding: 20px;
+      }
+
+      .cafe-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🍵 Matcha Map 🎀</h1>
+    <p>Your little matcha-loving corner of the world</p>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>Find your next matcha moment ♡</h2>
+      <p>Discover cute cafés, save your favourites and collect sweet memories.</p>
+    </section>
+
+    <input
+      class="search"
+      type="text"
+      placeholder="🔎 Search matcha cafés..."
+      aria-label="Search matcha cafés"
+    >
+
+    <h2>Little cafés to explore ✨</h2>
+    <p class="section-note">Your local matcha bucket list 💚</p>
+
+    <section id="cafe-list" aria-label="Cafés to explore">
+      <article class="cafe-card">
+        <span class="tag">🍵 Matcha options to verify</span>
+        <h3>Breeze Bowls</h3>
+        <p>📍 52 Ironmarket, Newcastle-under-Lyme</p>
+        <p>Matcha drinks and colourful smoothie bowls.</p>
+        <p class="verification">Menu and current availability need checking.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Breeze+Bowls+Newcastle-under-Lyme"
+           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
+        <br>
+        <button class="save-button" type="button">♡ Save to my wishlist</button>
+      </article>
+
+      <article class="cafe-card">
+        <span class="tag">☁️ Matcha options to verify</span>
+        <h3>Piccoloco</h3>
+        <p>📍 2a Hassell Street, Newcastle-under-Lyme</p>
+        <p>Specialty coffee café to investigate for matcha.</p>
+        <p class="verification">Confirm the current menu before visiting.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Piccoloco+Newcastle-under-Lyme"
+           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
+        <br>
+        <button class="save-button" type="button">♡ Save to my wishlist</button>
+      </article>
+
+      <article class="cafe-card">
+        <span class="tag">💕 Matcha options to verify</span>
+        <h3>Coffee House</h3>
+        <p>📍 34 Castle Walk, Newcastle-under-Lyme</p>
+        <p>A local café to check for hot and iced matcha.</p>
+        <p class="verification">Current menu needs confirmation.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Coffee+House+Castle+Walk+Newcastle-under-Lyme"
+           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
+        <br>
+        <button class="save-button" type="button">♡ Save to my wishlist</button>
+      </article>
+
+      <article class="cafe-card">
+        <span class="tag">🧋 Matcha options to verify</span>
+        <h3>Boba Trent</h3>
+        <p>📍 3 Fogg Street East, Newcastle-under-Lyme</p>
+        <p>A bubble tea shop to investigate for matcha-based drinks.</p>
+        <p class="verification">Confirm its current matcha options.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Boba+Trent+Newcastle-under-Lyme"
+           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
+        <br>
+        <button class="save-button" type="button">♡ Save to my wishlist</button>
+      </article>
+    </section>
+
+    <section class="wishlist-section">
+      <h2>My Matcha Wishlist ♡</h2>
+      <p class="empty-message" id="empty-message">
+        Your wishlist is waiting for its first matcha date! 🎀
+      </p>
+      <div id="wishlist-list"></div>
+    </section>
+
+    <section class="wishlist-section">
+      <h2>My Matcha Diary 📖🍵</h2>
+      <p class="section-note">Little sips, lovely memories ♡</p>
+
+      <form id="diary-form">
+        <label for="diary-cafe">Which café did you visit?</label>
+        <input id="diary-cafe" type="text" placeholder="Café name..." required>
+
+        <label for="diary-drink">What did you drink?</label>
+        <input id="diary-drink" type="text"
+               placeholder="Iced strawberry matcha..." required>
+
+        <label for="diary-rating">Rate your matcha ⭐</label>
+        <select id="diary-rating" required>
+          <option value="5">⭐⭐⭐⭐⭐ — Loved it!</option>
+          <option value="4">⭐⭐⭐⭐ — Really good!</option>
+          <option value="3">⭐⭐⭐ — It was okay</option>
+          <option value="2">⭐⭐ — Not my favourite</option>
+          <option value="1">⭐ — Wouldn't order again</option>
+        </select>
+
+        <label for="diary-review">Your little review 💌</label>
+        <textarea id="diary-review"
+                  placeholder="Tell me all the matcha details..."
+                  rows="3"></textarea>
+
+        <button class="save-button" type="submit">
+          ✨ Save my matcha memory
+        </button>
+      </form>
+
+      <div id="diary-entries"></div>
+    </section>
+  </main>
+
+  <script>
+    // Café search
+    const searchInput = document.querySelector(".search");
+    const cafeCards = document.querySelectorAll("#cafe-list .cafe-card");
+
+    searchInput.addEventListener("input", function () {
+      const searchText = searchInput.value.toLowerCase().trim();
+
+      cafeCards.forEach(function (card) {
+        const cafeInfo = card.textContent.toLowerCase();
+        card.style.display = cafeInfo.includes(searchText) ? "block" : "none";
+      });
+    });
+
+    // Wishlist
+    let savedCafes = JSON.parse(
+      localStorage.getItem("matchaWishlist") || "[]"
+    );
+
+    const wishlistList = document.querySelector("#wishlist-list");
+    const emptyMessage = document.querySelector("#empty-message");
+
+    function updateWishlist() {
+      wishlistList.replaceChildren();
+
+      cafeCards.forEach(function (card) {
+        const button = card.querySelector(".save-button");
+        const cafeName = card.querySelector("h3").textContent;
+        const isSaved = savedCafes.includes(cafeName);
+
+        button.textContent = isSaved
+          ? "♥ Saved to my wishlist"
+          : "♡ Save to my wishlist";
+
+        button.setAttribute("aria-pressed", String(isSaved));
+
+        if (isSaved) {
+          const item = document.createElement("div");
+          item.className = "wishlist-item";
+
+          const name = document.createElement("strong");
+          name.textContent = "💚 " + cafeName;
+
+          const removeButton = document.createElement("button");
+          removeButton.type = "button";
+          removeButton.className = "delete-button";
+          removeButton.textContent = "♡ Remove";
+
+          removeButton.addEventListener("click", function () {
+            savedCafes = savedCafes.filter(function (savedName) {
+              return savedName !== cafeName;
+            });
+
+            localStorage.setItem(
+              "matchaWishlist",
+              JSON.stringify(savedCafes)
+            );
+
+            updateWishlist();
+          });
+
+          item.append(name, removeButton);
+          wishlistList.appendChild(item);
+        }
+      });
+
+      emptyMessage.style.display =
+        savedCafes.length === 0 ? "block" : "none";
+    }
+
+    document.querySelectorAll("#cafe-list .save-button").forEach(
+      function (button) {
+        button.addEventListener("click", function () {
+          const card = button.closest(".cafe-card");
+          const cafeName = card.querySelector("h3").textContent;
+
+          if (savedCafes.includes(cafeName)) {
+            savedCafes = savedCafes.filter(function (name) {
+              return name !== cafeName;
+            });
+          } else {
+            savedCafes.push(cafeName);
+          }
+
+          localStorage.setItem(
+            "matchaWishlist",
+            JSON.stringify(savedCafes)
+          );
+
+          updateWishlist();
+        });
+      }
+    );
+
+    updateWishlist();
+
+    // Matcha Diary
+    const diaryForm = document.querySelector("#diary-form");
+    const diaryEntries = document.querySelector("#diary-entries");
+
+    let diary = JSON.parse(
+      localStorage.getItem("matchaDiary") || "[]"
+    );
+
+    function renderDiary() {
+      diaryEntries.replaceChildren();
+
+      if (diary.length === 0) {
+        const message = document.createElement("p");
+        message.className = "empty-message";
+        message.textContent =
+          "No matcha memories yet. Your first one is waiting! 🌷";
+        diaryEntries.appendChild(message);
+        return;
+      }
+
+      diary.forEach(function (entry, index) {
+        const card = document.createElement("article");
+        card.className = "diary-entry";
+
+        const heading = document.createElement("h3");
+        heading.textContent = "🍵 " + entry.cafe;
+
+        const drink = document.createElement("p");
+        drink.textContent = "🥤 Drink: " + entry.drink;
+
+        const rating = document.createElement("p");
+        rating.textContent = "Rating: " + "⭐".repeat(entry.rating);
+
+        const review = document.createElement("p");
+        review.textContent = entry.review
+          ? "💌 " + entry.review
+          : "💌 No review added.";
+
+        const date = document.createElement("p");
+        date.className = "section-note";
+        date.textContent = "📅 " + entry.date;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-button";
+        deleteButton.textContent = "🗑️ Delete memory";
+
+        deleteButton.addEventListener("click", function () {
+          diary.splice(index, 1);
+          localStorage.setItem("matchaDiary", JSON.stringify(diary));
+          renderDiary();
+        });
+
+        card.append(heading, drink, rating, review, date, deleteButton);
+        diaryEntries.appendChild(card);
+      });
+    }
+
+    diaryForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const entry = {
+        cafe: document.querySelector("#diary-cafe").value.trim(),
+        drink: document.querySelector("#diary-drink").value.trim(),
+        rating: Number(document.querySelector("#diary-rating").value),
+        review: document.querySelector("#diary-review").value.trim(),
+        date: new Date().toLocaleDateString("en-GB")
+      };
+
+      if (!entry.cafe || !entry.drink) {
+        return;
+      }
+
+      diary.unshift(entry);
+      localStorage.setItem("matchaDiary", JSON.stringify(diary));
+
+      diaryForm.reset();
+      renderDiary();
+    });
+
+    renderDiary();
+  </script>
+</body>
+</html>
+
