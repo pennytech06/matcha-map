@@ -518,6 +518,16 @@
 
     renderDiary();
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+<script>
+  const matchaSupabase = window.supabase.createClient(
+    'https://nrgzjqwnndwuzksrptho.supabase.co',
+    'sb_publishable_hFti-1XGnE12vi2DyUYstQ_pSKYbWSw'
+  );
+  console.log('Matcha Map connected to Supabase');
+</script>
 </body>
 </html>
 
