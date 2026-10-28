@@ -4,591 +4,1200 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f4ec">
   <title>Matcha Map 🍵</title>
 
   <style>
+    :root {
+      --cream: #faf7f0;
+      --green: #7d956b;
+      --dark-green: #344b36;
+      --light-green: #e8eedf;
+      --pink: #f4dfdf;
+      --dark-pink: #9d646c;
+      --brown: #54483e;
+      --white: #ffffff;
+      --border: #e7e0d4;
+      --shadow: 0 5px 20px rgba(69, 75, 49, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: "Trebuchet MS", sans-serif;
-      background-color: #f8f5ec;
-      color: #405440;
-    }
-
-    header {
-      padding: 24px;
-      text-align: center;
-      background-color: #e4edda;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    header p {
-      color: #71836a;
-    }
-
-    main {
-      width: 100%;
-      max-width: 740px;
-      box-sizing: border-box;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    .welcome {
-      padding: 28px;
-      border-radius: 24px;
-      background-color: #f9e3eb;
-      text-align: center;
-    }
-
-    .welcome h2,
-    .wishlist-section h2 {
-      color: #8e5369;
-    }
-
-    .search,
-    #diary-form input,
-    #diary-form select,
-    #diary-form textarea {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      margin: 8px 0 16px;
-      border: 1px solid #d9dfce;
-      border-radius: 14px;
-      font: inherit;
-      background-color: white;
-      color: #405440;
-    }
-
-    .search {
-      margin: 18px 0;
-    }
-
-    #diary-form label {
-      display: block;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    #diary-form textarea {
-      resize: vertical;
-    }
-
-    .cafe-card {
-      margin-top: 16px;
-      padding: 20px;
-      border-radius: 20px;
-      background-color: white;
-      box-shadow: 0 4px 15px #40544010;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 20px;
-      background-color: #e4edda;
-      font-size: 12px;
-    }
-
-    .save-button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 20px;
-      background-color: #e9b8ca;
-      color: #543847;
-      cursor: pointer;
-      margin-top: 8px;
-      font: inherit;
-    }
-
-    .save-button:hover {
-      background-color: #df9fb7;
-    }
-
-    .section-note {
-      color: #71836a;
-      margin-top: -8px;
-    }
-
-    .verification {
-      color: #8b8178;
-      font-size: 13px;
-      font-style: italic;
-    }
-
-    .cafe-card a {
-      color: #536b48;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .cafe-card a:hover {
-      text-decoration: underline;
-    }
-
-    .wishlist-section {
-      margin-top: 36px;
-      padding: 22px;
-      border-radius: 20px;
-      background-color: #f9e3eb;
-    }
-
-    .empty-message {
-      color: #765d67;
+      background: var(--cream);
+      color: var(--brown);
+      font-family: "Trebuchet MS", Arial, sans-serif;
       line-height: 1.6;
     }
 
-    .wishlist-item,
-    .diary-entry {
-      padding: 18px;
-      margin-top: 14px;
-      border: 1px solid #f0d6df;
-      border-radius: 18px;
-      background-color: #fffdfd;
-      box-shadow: 0 4px 12px #8e536910;
-      overflow-wrap: anywhere;
-    }
-
-    .wishlist-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .wishlist-item strong {
-      color: #405440;
-      font-size: 17px;
-    }
-
-    .diary-entry h3 {
-      margin: 0 0 14px;
-      color: #8e5369;
-      font-size: 20px;
-    }
-
-    .diary-entry p {
-      margin: 10px 0;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .diary-entry .section-note {
-      font-size: 14px;
-    }
-
-    .delete-button {
-      border: 1px solid #e9b8ca;
-      background-color: #fff5f8;
-      color: #8e5369;
-      padding: 9px 14px;
-      border-radius: 18px;
-      cursor: pointer;
+    button,
+    input,
+    textarea,
+    select {
       font: inherit;
     }
 
-    .delete-button:hover {
-      background-color: #f9e3eb;
+    button {
+      cursor: pointer;
     }
 
     button:focus-visible,
     input:focus-visible,
-    select:focus-visible,
-    textarea:focus-visible {
-      outline: 3px solid #b9cba9;
-      outline-offset: 2px;
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #b3c99e;
+      outline-offset: 3px;
     }
 
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 27px;
+    .hero {
+      padding: 42px 20px 35px;
+      text-align: center;
+      background: linear-gradient(135deg, #edf0e3, #f8e9e6);
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: var(--dark-green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      margin: 8px auto 0;
+      max-width: 560px;
+    }
+
+    .hero .tagline {
+      color: var(--dark-pink);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .container {
+      width: min(1050px, 92%);
+      margin: 0 auto;
+    }
+
+    .section {
+      margin: 30px 0;
+    }
+
+    .section-heading {
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--dark-green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.8rem;
+    }
+
+    .section-heading p {
+      margin: 4px 0 0;
+      color: #786e62;
+    }
+
+    .panel {
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .auth-panel {
+      max-width: 570px;
+      margin: 28px auto;
+    }
+
+    .auth-panel h2 {
+      margin-top: 0;
+      color: var(--dark-green);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 13px 0;
+    }
+
+    .form-field label {
+      font-size: 0.92rem;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px 13px;
+      color: var(--brown);
+      background: #fffdf9;
+      border: 1px solid #dcd5c9;
+      border-radius: 10px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 10px 17px;
+      border: 0;
+      border-radius: 999px;
+      font-weight: bold;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--green);
+    }
+
+    .btn-secondary {
+      color: var(--dark-green);
+      background: var(--light-green);
+    }
+
+    .btn-pink {
+      color: #754750;
+      background: var(--pink);
+    }
+
+    .btn-outline {
+      color: var(--dark-green);
+      background: transparent;
+      border: 1px solid var(--green);
+    }
+
+    .message {
+      min-height: 24px;
+      margin: 12px 0 0;
+      font-size: 0.92rem;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      color: #a33f45;
+    }
+
+    .message.success {
+      color: #476e42;
+    }
+
+    .signed-in {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .signed-in p {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 210px;
+    }
+
+    .filter-select {
+      width: auto;
+      min-width: 155px;
+    }
+
+    .cafe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 20px;
+    }
+
+    .cafe-card {
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .cafe-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .cafe-image {
+      display: grid;
+      min-height: 145px;
+      place-items: center;
+      background: linear-gradient(135deg, #e8eedf, #f4dfdf);
+      font-size: 4rem;
+    }
+
+    .cafe-content {
+      padding: 17px;
+    }
+
+    .cafe-content h3 {
+      margin: 0 0 5px;
+      color: var(--dark-green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+    }
+
+    .cafe-content p {
+      margin: 6px 0;
+    }
+
+    .cafe-location {
+      color: #817569;
+      font-size: 0.9rem;
+    }
+
+    .cafe-description {
+      min-height: 48px;
+    }
+
+    .cafe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .tag {
+      padding: 4px 9px;
+      color: var(--dark-green);
+      background: var(--light-green);
+      border-radius: 999px;
+      font-size: 0.78rem;
+    }
+
+    .empty-state {
+      padding: 28px 15px;
+      color: #817569;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px dashed #d8d0c4;
+      border-radius: 15px;
+    }
+
+    .diary-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .diary-form .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .diary-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .diary-entry {
+      padding: 16px;
+      background: #fffaf7;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .diary-entry h3 {
+      margin: 0;
+      color: var(--dark-green);
+    }
+
+    .diary-entry p {
+      margin: 8px 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .diary-meta {
+      color: #817569;
+      font-size: 0.85rem;
+    }
+
+    .diary-entry .btn {
+      margin-top: 8px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .stat-card {
+      padding: 17px 10px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .stat-number {
+      display: block;
+      color: var(--dark-green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .stat-label {
+      color: #817569;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      margin-top: 45px;
+      padding: 25px 15px;
+      color: #786e62;
+      text-align: center;
+      background: #edf0e3;
+    }
+
+    footer p {
+      margin: 4px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 32px 15px;
       }
 
-      main {
-        padding: 0 14px;
+      .panel {
+        padding: 17px;
       }
 
-      .welcome,
-      .wishlist-section {
-        padding: 20px;
+      .diary-form {
+        grid-template-columns: 1fr;
       }
 
-      .cafe-card {
-        padding: 16px;
+      .diary-form .full-width {
+        grid-column: auto;
+      }
+
+      .stats {
+        gap: 7px;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+      }
+
+      .signed-in {
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 
 <body>
-  
-<section id="auth-section" style="max-width: 420px; margin: 30px auto; padding: 24px; background: #fff8f5; border-radius: 20px; text-align: center;">
-  <h2>Welcome to Matcha Map 🍵</h2>
-  <p>Sign in to save your favourite matcha spots!</p>
-
-  <form id="auth-form">
-    <input
-      id="auth-email"
-      type="email"
-      placeholder="Your email address"
-      required
-      style="width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #d8cfc7; border-radius: 10px;"
-    >
-
-    <input
-      id="auth-password"
-      type="password"
-      placeholder="Password (at least 6 characters)"
-      minlength="6"
-      required
-      style="width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #d8cfc7; border-radius: 10px;"
-    >
-
-    <button type="submit" id="signup-button">
-      Create account
-    </button>
-
-    <button type="button" id="signin-button">
-      Sign in
-    </button>
-  </form>
-
-  <p id="auth-message" role="status"></p>
-</section>
-
-  <header>
-    <h1>🍵 Matcha Map 🎀</h1>
-    <p>Your little matcha-loving corner of the world</p>
+  <header class="hero">
+    <p class="tagline">A little matcha, a little magic</p>
+    <h1>Matcha Map 🍵</h1>
+    <p>Your cosy corner to discover matcha spots, save favourites and remember your café adventures.</p>
   </header>
 
-  <main>
-    <section class="welcome">
-      <h2>Find your next matcha moment ♡</h2>
-      <p>Discover cute cafés, save your favourites and collect sweet memories.</p>
+  <main class="container">
+    <!-- ACCOUNT SECTION -->
+    <section class="panel auth-panel" aria-labelledby="auth-heading">
+      <div id="auth-form-area">
+        <h2 id="auth-heading">Welcome to Matcha Map 🌿</h2>
+        <p>Create an account or sign in to get started.</p>
+
+        <form id="auth-form">
+          <div class="form-field">
+            <label for="auth-email">Email address</label>
+            <input
+              id="auth-email"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="auth-password">Password</label>
+            <input
+              id="auth-password"
+              type="password"
+              placeholder="At least 6 characters"
+              autocomplete="current-password"
+              minlength="6"
+              required
+            >
+          </div>
+
+          <div class="button-row">
+            <button class="btn btn-primary" type="submit" id="signup-button">
+              Create account
+            </button>
+            <button class="btn btn-secondary" type="button" id="signin-button">
+              Sign in
+            </button>
+          </div>
+        </form>
+
+        <p id="auth-message" class="message" role="status" aria-live="polite"></p>
+      </div>
+
+      <div id="signed-in-area" hidden>
+        <div class="signed-in">
+          <div>
+            <h2 style="margin: 0;">You're in! 🍵</h2>
+            <p>Signed in as <strong id="signed-in-email"></strong></p>
+          </div>
+          <button class="btn btn-outline" type="button" id="signout-button">
+            Sign out
+          </button>
+        </div>
+        <p id="account-message" class="message" role="status" aria-live="polite"></p>
+      </div>
     </section>
 
-    <input
-      class="search"
-      type="text"
-      placeholder="🔎 Search matcha cafés..."
-      aria-label="Search matcha cafés"
-    >
-
-    <h2>Little cafés to explore ✨</h2>
-    <p class="section-note">Your local matcha bucket list 💚</p>
-
-    <section id="cafe-list" aria-label="Cafés to explore">
-      <article class="cafe-card">
-        <span class="tag">🍵 Matcha options to verify</span>
-        <h3>Breeze Bowls</h3>
-        <p>📍 52 Ironmarket, Newcastle-under-Lyme</p>
-        <p>Matcha drinks and colourful smoothie bowls.</p>
-        <p class="verification">Menu and current availability need checking.</p>
-        <a href="https://www.google.com/maps/search/?api=1&query=Breeze+Bowls+Newcastle-under-Lyme"
-           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
-        <br>
-        <button class="save-button" type="button">♡ Save to my wishlist</button>
-      </article>
-
-      <article class="cafe-card">
-        <span class="tag">☁️ Matcha options to verify</span>
-        <h3>Piccoloco</h3>
-        <p>📍 2a Hassell Street, Newcastle-under-Lyme</p>
-        <p>Specialty coffee café to investigate for matcha.</p>
-        <p class="verification">Confirm the current menu before visiting.</p>
-        <a href="https://www.google.com/maps/search/?api=1&query=Piccoloco+Newcastle-under-Lyme"
-           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
-        <br>
-        <button class="save-button" type="button">♡ Save to my wishlist</button>
-      </article>
-
-      <article class="cafe-card">
-        <span class="tag">💕 Matcha options to verify</span>
-        <h3>Coffee House</h3>
-        <p>📍 34 Castle Walk, Newcastle-under-Lyme</p>
-        <p>A local café to check for hot and iced matcha.</p>
-        <p class="verification">Current menu needs confirmation.</p>
-        <a href="https://www.google.com/maps/search/?api=1&query=Coffee+House+Castle+Walk+Newcastle-under-Lyme"
-           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
-        <br>
-        <button class="save-button" type="button">♡ Save to my wishlist</button>
-      </article>
-
-      <article class="cafe-card">
-        <span class="tag">🧋 Matcha options to verify</span>
-        <h3>Boba Trent</h3>
-        <p>📍 3 Fogg Street East, Newcastle-under-Lyme</p>
-        <p>A bubble tea shop to investigate for matcha-based drinks.</p>
-        <p class="verification">Confirm its current matcha options.</p>
-        <a href="https://www.google.com/maps/search/?api=1&query=Boba+Trent+Newcastle-under-Lyme"
-           target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a>
-        <br>
-        <button class="save-button" type="button">♡ Save to my wishlist</button>
-      </article>
+    <!-- QUICK STATS -->
+    <section class="stats" aria-label="Your Matcha Map statistics">
+      <div class="stat-card">
+        <span class="stat-number" id="cafe-count">0</span>
+        <span class="stat-label">Café spots</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="favourite-count">0</span>
+        <span class="stat-label">Favourites</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="diary-count">0</span>
+        <span class="stat-label">Diary entries</span>
+      </div>
     </section>
 
-    <section class="wishlist-section">
-      <h2>My Matcha Wishlist ♡</h2>
-      <p class="empty-message" id="empty-message">
-        Your wishlist is waiting for its first matcha date! 🎀
-      </p>
-      <div id="wishlist-list"></div>
-    </section>
+    <!-- CAFÉ DISCOVERY -->
+    <section class="section" id="discover">
+      <div class="section-heading">
+        <h2>Discover matcha spots 🌱</h2>
+        <p>Find somewhere new to try or save a spot for later.</p>
+      </div>
 
-    <section class="wishlist-section">
-      <h2>My Matcha Diary 📖🍵</h2>
-      <p class="section-note">Little sips, lovely memories ♡</p>
+      <div class="toolbar">
+        <input
+          class="search-input"
+          id="search-input"
+          type="search"
+          placeholder="Search cafés, locations or matcha..."
+          aria-label="Search cafés"
+        >
 
-      <form id="diary-form">
-        <label for="diary-cafe">Which café did you visit?</label>
-        <input id="diary-cafe" type="text" placeholder="Café name..." required>
-
-        <label for="diary-drink">What did you drink?</label>
-        <input id="diary-drink" type="text"
-               placeholder="Iced strawberry matcha..." required>
-
-        <label for="diary-rating">Rate your matcha ⭐</label>
-        <select id="diary-rating" required>
-          <option value="5">⭐⭐⭐⭐⭐ — Loved it!</option>
-          <option value="4">⭐⭐⭐⭐ — Really good!</option>
-          <option value="3">⭐⭐⭐ — It was okay</option>
-          <option value="2">⭐⭐ — Not my favourite</option>
-          <option value="1">⭐ — Wouldn't order again</option>
+        <select class="filter-select" id="cafe-filter" aria-label="Filter cafés">
+          <option value="all">All cafés</option>
+          <option value="favourites">My favourites</option>
         </select>
+      </div>
 
-        <label for="diary-review">Your little review 💌</label>
-        <textarea id="diary-review"
-                  placeholder="Tell me all the matcha details..."
-                  rows="3"></textarea>
+      <div class="cafe-grid" id="cafe-grid"></div>
+      <p id="cafe-empty" class="empty-state" hidden>No cafés found. Try another search. 🍵</p>
+    </section>
 
-        <button class="save-button" type="submit">
-          ✨ Save my matcha memory
-        </button>
-      </form>
+    <!-- FAVOURITES -->
+    <section class="section" id="favourites">
+      <div class="section-heading">
+        <h2>Your little green list 💚</h2>
+        <p>All the matcha spots you've saved in one place.</p>
+      </div>
 
-      <div id="diary-entries"></div>
+      <div id="favourites-grid" class="cafe-grid"></div>
+      <p id="favourites-empty" class="empty-state">
+        Your favourites will appear here. Tap “Save favourite” on a café you love!
+      </p>
+    </section>
+
+    <!-- MATCHA DIARY -->
+    <section class="section" id="diary">
+      <div class="section-heading">
+        <h2>My matcha diary 📔</h2>
+        <p>Keep little memories of the matcha you've tried.</p>
+      </div>
+
+      <div class="panel">
+        <form id="diary-form">
+          <div class="diary-form">
+            <div class="form-field">
+              <label for="diary-cafe">Café name</label>
+              <input
+                id="diary-cafe"
+                type="text"
+                placeholder="Where did you go?"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="diary-date">Date visited</label>
+              <input id="diary-date" type="date" required>
+            </div>
+
+            <div class="form-field">
+              <label for="diary-drink">What did you order?</label>
+              <input
+                id="diary-drink"
+                type="text"
+                placeholder="Iced strawberry matcha..."
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="diary-rating">Your rating</label>
+              <select id="diary-rating">
+                <option value="5">★★★★★ — Loved it</option>
+                <option value="4">★★★★☆ — Really good</option>
+                <option value="3">★★★☆☆ — It was okay</option>
+                <option value="2">★★☆☆☆ — Not for me</option>
+                <option value="1">★☆☆☆☆ — Wouldn't repeat</option>
+              </select>
+            </div>
+
+            <div class="form-field full-width">
+              <label for="diary-notes">Little notes and memories</label>
+              <textarea
+                id="diary-notes"
+                placeholder="How was the matcha? What was the café like? Would you go again?"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="button-row">
+            <button class="btn btn-primary" type="submit">Save diary entry ✨</button>
+          </div>
+
+          <p id="diary-message" class="message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div id="diary-list" class="diary-list"></div>
+        <p id="diary-empty" class="empty-state">
+          Your diary is waiting for its first matcha memory. 🌸
+        </p>
+      </div>
     </section>
   </main>
 
+  <footer>
+    <p>Made with love and matcha 🍵</p>
+    <p>Matcha Map — find your next favourite sip.</p>
+  </footer>
+
+  <!-- Supabase JavaScript library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // Café search
-    const searchInput = document.querySelector(".search");
-    const cafeCards = document.querySelectorAll("#cafe-list .cafe-card");
+    // --------------------------------------------------
+    // 1. SUPABASE CONNECTION
+    // --------------------------------------------------
 
-    searchInput.addEventListener("input", function () {
-      const searchText = searchInput.value.toLowerCase().trim();
+    const SUPABASE_URL = "https://nrgzjqwnndwuzksrptho.supabase.co";
 
-      cafeCards.forEach(function (card) {
-        const cafeInfo = card.textContent.toLowerCase();
-        card.style.display = cafeInfo.includes(searchText) ? "block" : "none";
-      });
-    });
+    // This is the public publishable key, not a secret/service-role key.
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_hFti-1XGnE12vi2DyUYstQ_pSKYbWSw";
 
-    // Wishlist - currently stored in this browser
-    let savedCafes = JSON.parse(
-      localStorage.getItem("matchaWishlist") || "[]"
+    const matchaSupabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
     );
 
-    const wishlistList = document.querySelector("#wishlist-list");
-    const emptyMessage = document.querySelector("#empty-message");
+    // --------------------------------------------------
+    // 2. CAFÉ DATA
+    // --------------------------------------------------
 
-    function updateWishlist() {
-      wishlistList.replaceChildren();
+    // These are example café cards for the website.
+    // Replace or expand them with your own verified café details.
+    const cafes = [
+      {
+        id: "breeze-bowls",
+        name: "Breeze Bowls",
+        location: "Newcastle-under-Lyme",
+        description: "A refreshing spot for a little treat and a café catch-up.",
+        tags: ["Matcha", "Café"],
+        emoji: "🍵"
+      },
+      {
+        id: "piccoloco",
+        name: "Piccoloco",
+        location: "Newcastle-under-Lyme",
+        description: "A cosy café idea for your next drink date.",
+        tags: ["Coffee", "Café"],
+        emoji: "🌿"
+      },
+      {
+        id: "coffee-house",
+        name: "Coffee House",
+        location: "Newcastle-under-Lyme",
+        description: "Add your favourite order and matcha notes after a visit.",
+        tags: ["Drinks", "Study spot"],
+        emoji: "☕"
+      },
+      {
+        id: "boba-trent",
+        name: "Boba Trent",
+        location: "Stoke-on-Trent",
+        description: "A fun stop to explore when you're craving a drink.",
+        tags: ["Boba", "Drinks"],
+        emoji: "🧋"
+      }
+    ];
 
-      cafeCards.forEach(function (card) {
-        const button = card.querySelector(".save-button");
-        const cafeName = card.querySelector("h3").textContent;
-        const isSaved = savedCafes.includes(cafeName);
+    // --------------------------------------------------
+    // 3. LOCAL STORAGE
+    // --------------------------------------------------
 
-        button.textContent = isSaved
-          ? "♥ Saved to my wishlist"
-          : "♡ Save to my wishlist";
+    // At this stage, favourites and diary entries are saved
+    // in this browser. They are not yet synced to Supabase.
+    const FAVOURITES_KEY = "matchaWishlist";
+    const DIARY_KEY = "matchaDiary";
 
-        button.setAttribute("aria-pressed", String(isSaved));
-
-        if (isSaved) {
-          const item = document.createElement("div");
-          item.className = "wishlist-item";
-
-          const name = document.createElement("strong");
-          name.textContent = "💚 " + cafeName;
-
-          const removeButton = document.createElement("button");
-          removeButton.type = "button";
-          removeButton.className = "delete-button";
-          removeButton.textContent = "♡ Remove";
-
-          removeButton.addEventListener("click", function () {
-            savedCafes = savedCafes.filter(function (savedName) {
-              return savedName !== cafeName;
-            });
-
-            localStorage.setItem(
-              "matchaWishlist",
-              JSON.stringify(savedCafes)
-            );
-
-            updateWishlist();
-          });
-
-          item.append(name, removeButton);
-          wishlistList.appendChild(item);
-        }
-      });
-
-      emptyMessage.style.display =
-        savedCafes.length === 0 ? "block" : "none";
+    function readLocalArray(key) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        console.error("Could not read local data:", error);
+        return [];
+      }
     }
 
-    document.querySelectorAll("#cafe-list .save-button").forEach(
-      function (button) {
-        button.addEventListener("click", function () {
-          const card = button.closest(".cafe-card");
-          const cafeName = card.querySelector("h3").textContent;
-
-          if (savedCafes.includes(cafeName)) {
-            savedCafes = savedCafes.filter(function (name) {
-              return name !== cafeName;
-            });
-          } else {
-            savedCafes.push(cafeName);
-          }
-
-          localStorage.setItem(
-            "matchaWishlist",
-            JSON.stringify(savedCafes)
-          );
-
-          updateWishlist();
-        });
+    function saveLocalArray(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        console.error("Could not save local data:", error);
+        return false;
       }
-    );
+    }
 
-    updateWishlist();
+    let favourites = readLocalArray(FAVOURITES_KEY);
+    let diaryEntries = readLocalArray(DIARY_KEY);
 
-    // Matcha Diary - currently stored in this browser
-    const diaryForm = document.querySelector("#diary-form");
-    const diaryEntries = document.querySelector("#diary-entries");
+    // --------------------------------------------------
+    // 4. SHARED HELPERS
+    // --------------------------------------------------
 
-    let diary = JSON.parse(
-      localStorage.getItem("matchaDiary") || "[]"
-    );
+    const cafeGrid = document.getElementById("cafe-grid");
+    const favouritesGrid = document.getElementById("favourites-grid");
+    const cafeEmpty = document.getElementById("cafe-empty");
+    const favouritesEmpty = document.getElementById("favourites-empty");
+    const diaryList = document.getElementById("diary-list");
+    const diaryEmpty = document.getElementById("diary-empty");
 
-    function renderDiary() {
-      diaryEntries.replaceChildren();
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (character) {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        };
+        return entities[character];
+      });
+    }
 
-      if (diary.length === 0) {
-        const message = document.createElement("p");
-        message.className = "empty-message";
-        message.textContent =
-          "No matcha memories yet. Your first one is waiting! 🌷";
-        diaryEntries.appendChild(message);
+    function showMessage(element, message, type = "") {
+      element.textContent = message;
+      element.className = "message" + (type ? " " + type : "");
+    }
+
+    function updateStats() {
+      document.getElementById("cafe-count").textContent = cafes.length;
+      document.getElementById("favourite-count").textContent = favourites.length;
+      document.getElementById("diary-count").textContent = diaryEntries.length;
+    }
+
+    // --------------------------------------------------
+    // 5. CAFÉ CARDS AND SEARCH
+    // --------------------------------------------------
+
+    function createCafeCard(cafe) {
+      const isFavourite = favourites.includes(cafe.id);
+
+      const card = document.createElement("article");
+      card.className = "cafe-card";
+
+      const tagsHTML = cafe.tags
+        .map(tag => `<span class="tag">${escapeHTML(tag)}</span>`)
+        .join("");
+
+      card.innerHTML = `
+        <div class="cafe-image" aria-hidden="true">
+          ${escapeHTML(cafe.emoji)}
+        </div>
+        <div class="cafe-content">
+          <h3>${escapeHTML(cafe.name)}</h3>
+          <p class="cafe-location">📍 ${escapeHTML(cafe.location)}</p>
+          <p class="cafe-description">${escapeHTML(cafe.description)}</p>
+          <div class="cafe-tags">${tagsHTML}</div>
+          <div class="button-row">
+            <button
+              class="btn ${isFavourite ? "btn-pink" : "btn-secondary"}"
+              type="button"
+              data-favourite-id="${escapeHTML(cafe.id)}"
+              aria-pressed="${isFavourite}"
+            >
+              ${isFavourite ? "♥ Saved" : "♡ Save favourite"}
+            </button>
+            <button
+              class="btn btn-outline"
+              type="button"
+              data-diary-cafe="${escapeHTML(cafe.name)}"
+            >
+              Add to diary
+            </button>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function renderCafes() {
+      const searchTerm = document
+        .getElementById("search-input")
+        .value.trim()
+        .toLowerCase();
+
+      const filter = document.getElementById("cafe-filter").value;
+
+      const filteredCafes = cafes.filter(cafe => {
+        const searchableText = [
+          cafe.name,
+          cafe.location,
+          cafe.description,
+          ...cafe.tags
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = searchableText.includes(searchTerm);
+        const matchesFavourite =
+          filter !== "favourites" || favourites.includes(cafe.id);
+
+        return matchesSearch && matchesFavourite;
+      });
+
+      cafeGrid.replaceChildren();
+
+      filteredCafes.forEach(cafe => {
+        cafeGrid.appendChild(createCafeCard(cafe));
+      });
+
+      cafeEmpty.hidden = filteredCafes.length > 0;
+
+      renderFavourites();
+      updateStats();
+    }
+
+    function renderFavourites() {
+      const favouriteCafes = cafes.filter(cafe =>
+        favourites.includes(cafe.id)
+      );
+
+      favouritesGrid.replaceChildren();
+
+      favouriteCafes.forEach(cafe => {
+        favouritesGrid.appendChild(createCafeCard(cafe));
+      });
+
+      favouritesEmpty.hidden = favouriteCafes.length > 0;
+    }
+
+    function toggleFavourite(cafeId) {
+      if (favourites.includes(cafeId)) {
+        favourites = favourites.filter(id => id !== cafeId);
+      } else {
+        favourites.push(cafeId);
+      }
+
+      const saved = saveLocalArray(FAVOURITES_KEY, favourites);
+
+      if (!saved) {
+        alert("Your browser couldn't save this favourite. Check your browser storage settings.");
+      }
+
+      renderCafes();
+    }
+
+    document.getElementById("search-input").addEventListener("input", renderCafes);
+    document.getElementById("cafe-filter").addEventListener("change", renderCafes);
+
+    // Event delegation handles buttons in both café grids.
+    document.addEventListener("click", function (event) {
+      const favouriteButton = event.target.closest("[data-favourite-id]");
+
+      if (favouriteButton) {
+        toggleFavourite(favouriteButton.dataset.favouriteId);
         return;
       }
 
-      diary.forEach(function (entry, index) {
+      const diaryButton = event.target.closest("[data-diary-cafe]");
+
+      if (diaryButton) {
+        document.getElementById("diary-cafe").value =
+          diaryButton.dataset.diaryCafe;
+
+        document.getElementById("diary").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+        document.getElementById("diary-drink").focus();
+      }
+    });
+
+    // --------------------------------------------------
+    // 6. MATCHA DIARY
+    // --------------------------------------------------
+
+    const diaryForm = document.getElementById("diary-form");
+    const diaryMessage = document.getElementById("diary-message");
+
+    // Default the diary date to today's local date.
+    const today = new Date();
+    const localToday = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0")
+    ].join("-");
+
+    document.getElementById("diary-date").value = localToday;
+
+    function renderDiary() {
+      diaryList.replaceChildren();
+
+      const sortedEntries = [...diaryEntries].sort((a, b) =>
+        String(b.date).localeCompare(String(a.date))
+      );
+
+      sortedEntries.forEach(entry => {
         const card = document.createElement("article");
         card.className = "diary-entry";
 
-        const heading = document.createElement("h3");
-        heading.textContent = "🍵 " + entry.cafe;
+        const rating = Math.max(1, Math.min(5, Number(entry.rating) || 1));
+        const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
 
-        const drink = document.createElement("p");
-        drink.textContent = "🥤 Drink: " + entry.drink;
+        card.innerHTML = `
+          <h3>${escapeHTML(entry.cafe)}</h3>
+          <div class="diary-meta">
+            ${escapeHTML(entry.date)} · ${stars}
+          </div>
+          ${entry.drink
+            ? `<p><strong>Order:</strong> ${escapeHTML(entry.drink)}</p>`
+            : ""}
+          ${entry.notes
+            ? `<p>${escapeHTML(entry.notes)}</p>`
+            : ""}
+          <button
+            class="btn btn-pink"
+            type="button"
+            data-delete-diary="${escapeHTML(entry.id)}"
+          >
+            Delete entry
+          </button>
+        `;
 
-        const rating = document.createElement("p");
-        rating.textContent = "Rating: " + "⭐".repeat(entry.rating);
-
-        const review = document.createElement("p");
-        review.textContent = entry.review
-          ? "💌 " + entry.review
-          : "💌 No review added.";
-
-        const date = document.createElement("p");
-        date.className = "section-note";
-        date.textContent = "📅 " + entry.date;
-
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.className = "delete-button";
-        deleteButton.textContent = "🗑️ Delete memory";
-
-        deleteButton.addEventListener("click", function () {
-          diary.splice(index, 1);
-          localStorage.setItem("matchaDiary", JSON.stringify(diary));
-          renderDiary();
-        });
-
-        card.append(heading, drink, rating, review, date, deleteButton);
-        diaryEntries.appendChild(card);
+        diaryList.appendChild(card);
       });
+
+      diaryEmpty.hidden = diaryEntries.length > 0;
+      updateStats();
     }
 
     diaryForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const entry = {
-        cafe: document.querySelector("#diary-cafe").value.trim(),
-        drink: document.querySelector("#diary-drink").value.trim(),
-        rating: Number(document.querySelector("#diary-rating").value),
-        review: document.querySelector("#diary-review").value.trim(),
-        date: new Date().toLocaleDateString("en-GB")
-      };
+      const cafeName = document.getElementById("diary-cafe").value.trim();
+      const date = document.getElementById("diary-date").value;
+      const drink = document.getElementById("diary-drink").value.trim();
+      const rating = Number(document.getElementById("diary-rating").value);
+      const notes = document.getElementById("diary-notes").value.trim();
 
-      if (!entry.cafe || !entry.drink) {
+      if (!cafeName || !date) {
+        showMessage(diaryMessage, "Please enter the café name and visit date.", "error");
         return;
       }
 
-      diary.unshift(entry);
-      localStorage.setItem("matchaDiary", JSON.stringify(diary));
+      const entry = {
+        id: (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : String(Date.now()) + Math.random().toString(16).slice(2),
+        cafe: cafeName,
+        date,
+        drink,
+        rating,
+        notes
+      };
+
+      diaryEntries.push(entry);
+
+      if (!saveLocalArray(DIARY_KEY, diaryEntries)) {
+        diaryEntries = diaryEntries.filter(item => item.id !== entry.id);
+        showMessage(
+          diaryMessage,
+          "The entry could not be saved. Please check your browser storage settings.",
+          "error"
+        );
+        return;
+      }
 
       diaryForm.reset();
+      document.getElementById("diary-date").value = localToday;
+      document.getElementById("diary-rating").value = "5";
+
       renderDiary();
+      showMessage(diaryMessage, "Your matcha memory has been saved! 🍵", "success");
     });
 
-    renderDiary();
-  </script>
+    document.addEventListener("click", function (event) {
+      const deleteButton = event.target.closest("[data-delete-diary]");
 
-  <!-- Supabase library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      if (!deleteButton) return;
 
-  <!-- Initialise Supabase -->
-  <script>
-    const matchaSupabase = window.supabase.createClient(
-      'https://nrgzjqwnndwuzksrptho.supabase.co',
-      'sb_publishable_hFti-1XGnE12vi2DyUYstQ_pSKYbWSw'
-    );
+      const entryId = deleteButton.dataset.deleteDiary;
+      const previousEntries = diaryEntries;
 
-    console.log('Matcha Map connected to Supabase');
-  </script>
+      diaryEntries = diaryEntries.filter(entry => entry.id !== entryId);
 
-  <!-- NEW: Test reading the cafes table -->
-  <script>
-    async function testMatchaDatabase() {
-      const { data, error } = await matchaSupabase
-        .from('cafes')
-        .select('*')
-        .limit(5);
+      if (!saveLocalArray(DIARY_KEY, diaryEntries)) {
+        diaryEntries = previousEntries;
+        showMessage(
+          diaryMessage,
+          "The entry could not be deleted. Please try again.",
+          "error"
+        );
+        return;
+      }
 
-      if (error) {
-        console.error(
-          'Supabase database test failed:',
-          error.message
+      renderDiary();
+      showMessage(diaryMessage, "Diary entry deleted.", "success");
+    });
+
+    // --------------------------------------------------
+    // 7. SUPABASE AUTHENTICATION
+    // --------------------------------------------------
+
+    const authForm = document.getElementById("auth-form");
+    const authFormArea = document.getElementById("auth-form-area");
+    const signedInArea = document.getElementById("signed-in-area");
+    const authMessage = document.getElementById("auth-message");
+    const accountMessage = document.getElementById("account-message");
+    const signupButton = document.getElementById("signup-button");
+    const signinButton = document.getElementById("signin-button");
+    const signoutButton = document.getElementById("signout-button");
+
+    let currentUser = null;
+
+    function setAuthUI(user) {
+      currentUser = user || null;
+
+      if (currentUser) {
+        authFormArea.hidden = true;
+        signedInArea.hidden = false;
+
+        document.getElementById("signed-in-email").textContent =
+          currentUser.email || "Signed-in user";
+
+        showMessage(
+          accountMessage,
+          "You're signed in. Enjoy exploring Matcha Map!",
+          "success"
         );
       } else {
-        console.log(
-          'Supabase database test successful!',
-          data
+        authFormArea.hidden = false;
+        signedInArea.hidden = true;
+        document.getElementById("signed-in-email").textContent = "";
+      }
+    }
+
+    function setAuthButtonsDisabled(disabled) {
+      signupButton.disabled = disabled;
+      signinButton.disabled = disabled;
+      signoutButton.disabled = disabled;
+    }
+
+    async function signUp() {
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value;
+
+      showMessage(authMessage, "Creating your account...");
+      setAuthButtonsDisabled(true);
+
+      try {
+        const { data, error } = await matchaSupabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: "https://pennytech06.github.io/matcha-map/"
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage(
+            authMessage,
+            "Your account has been created and you're signed in!",
+            "success"
+          );
+        } else {
+          showMessage(
+            authMessage,
+            "Account request received! Check your email for a confirmation link if email confirmation is enabled.",
+            "success"
+          );
+        }
+      } catch (error) {
+        console.error("Sign-up error:", error);
+        showMessage(
+          authMessage,
+          error.message || "We couldn't create your account. Please try again.",
+          "error"
+        );
+      } finally {
+        setAuthButtonsDisabled(false);
+      }
+    }
+
+    async function signIn() {
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value;
+
+      showMessage(authMessage, "Signing you in...");
+      setAuthButtonsDisabled(true);
+
+      try {
+        const { error } = await matchaSupabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        showMessage(authMessage, "Successfully signed in!", "success");
+      } catch (error) {
+        console.error("Sign-in error:", error);
+        showMessage(
+          authMessage,
+          error.message || "We couldn't sign you in. Check your details and try again.",
+          "error"
+        );
+      } finally {
+        setAuthButtonsDisabled(false);
+      }
+    }
+
+    async function signOut() {
+      setAuthButtonsDisabled(true);
+      showMessage(accountMessage, "Signing out...");
+
+      try {
+        const { error } = await matchaSupabase.auth.signOut();
+
+        if (error) throw error;
+
+        showMessage(authMessage, "You've signed out successfully.", "success");
+      } catch (error) {
+        console.error("Sign-out error:", error);
+        showMessage(
+          accountMessage,
+          error.message || "We couldn't sign you out. Please try again.",
+          "error"
+        );
+      } finally {
+        setAuthButtonsDisabled(false);
+      }
+    }
+
+    authForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      signUp();
+    });
+
+    signinButton.addEventListener("click", signIn);
+    signoutButton.addEventListener("click", signOut);
+
+    // Restore the existing session when the page loads.
+    async function restoreSession() {
+      try {
+        const { data, error } = await matchaSupabase.auth.getSession();
+
+        if (error) throw error;
+
+        setAuthUI(data.session ? data.session.user : null);
+      } catch (error) {
+        console.error("Could not restore session:", error);
+        showMessage(
+          authMessage,
+          "We couldn't check your session. Please refresh the page.",
+          "error"
         );
       }
     }
 
-    testMatchaDatabase();
+    // Keep the page updated when the authentication state changes.
+    matchaSupabase.auth.onAuthStateChange((event, session) => {
+      setAuthUI(session ? session.user : null);
+    });
+
+    // --------------------------------------------------
+    // 8. INITIAL PAGE SETUP
+    // --------------------------------------------------
+
+    renderCafes();
+    renderDiary();
+    restoreSession();
   </script>
 </body>
 </html>
+
