@@ -226,6 +226,41 @@
 </head>
 
 <body>
+  
+<section id="auth-section" style="max-width: 420px; margin: 30px auto; padding: 24px; background: #fff8f5; border-radius: 20px; text-align: center;">
+  <h2>Welcome to Matcha Map 🍵</h2>
+  <p>Sign in to save your favourite matcha spots!</p>
+
+  <form id="auth-form">
+    <input
+      id="auth-email"
+      type="email"
+      placeholder="Your email address"
+      required
+      style="width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #d8cfc7; border-radius: 10px;"
+    >
+
+    <input
+      id="auth-password"
+      type="password"
+      placeholder="Password (at least 6 characters)"
+      minlength="6"
+      required
+      style="width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #d8cfc7; border-radius: 10px;"
+    >
+
+    <button type="submit" id="signup-button">
+      Create account
+    </button>
+
+    <button type="button" id="signin-button">
+      Sign in
+    </button>
+  </form>
+
+  <p id="auth-message" role="status"></p>
+</section>
+
   <header>
     <h1>🍵 Matcha Map 🎀</h1>
     <p>Your little matcha-loving corner of the world</p>
