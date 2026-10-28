@@ -354,7 +354,7 @@
       });
     });
 
-    // Wishlist
+    // Wishlist - currently stored in this browser
     let savedCafes = JSON.parse(
       localStorage.getItem("matchaWishlist") || "[]"
     );
@@ -436,7 +436,7 @@
 
     updateWishlist();
 
-    // Matcha Diary
+    // Matcha Diary - currently stored in this browser
     const diaryForm = document.querySelector("#diary-form");
     const diaryEntries = document.querySelector("#diary-entries");
 
@@ -519,15 +519,41 @@
     renderDiary();
   </script>
 
+  <!-- Supabase library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-<script>
-  const matchaSupabase = window.supabase.createClient(
-    'https://nrgzjqwnndwuzksrptho.supabase.co',
-    'sb_publishable_hFti-1XGnE12vi2DyUYstQ_pSKYbWSw'
-  );
-  console.log('Matcha Map connected to Supabase');
-</script>
+
+  <!-- Initialise Supabase -->
+  <script>
+    const matchaSupabase = window.supabase.createClient(
+      'https://nrgzjqwnndwuzksrptho.supabase.co',
+      'sb_publishable_hFti-1XGnE12vi2DyUYstQ_pSKYbWSw'
+    );
+
+    console.log('Matcha Map connected to Supabase');
+  </script>
+
+  <!-- NEW: Test reading the cafes table -->
+  <script>
+    async function testMatchaDatabase() {
+      const { data, error } = await matchaSupabase
+        .from('cafes')
+        .select('*')
+        .limit(5);
+
+      if (error) {
+        console.error(
+          'Supabase database test failed:',
+          error.message
+        );
+      } else {
+        console.log(
+          'Supabase database test successful!',
+          data
+        );
+      }
+    }
+
+    testMatchaDatabase();
+  </script>
 </body>
 </html>
-
